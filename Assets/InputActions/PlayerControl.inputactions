@@ -15,10 +15,28 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Move",
+                    "name": "Move_fb",
                     "type": "Value",
                     "id": "54c954b6-8cdf-4e3d-b665-e5f528bab69c",
                     "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Move_lr",
+                    "type": "Value",
+                    "id": "1bf95feb-0f0e-4ba4-9744-692302bf6a42",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "View",
+                    "type": "PassThrough",
+                    "id": "979a6226-f7f4-4c36-8893-7dcfc987e896",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -43,7 +61,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "Move_fb",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -54,7 +72,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "Move_fb",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -65,31 +83,53 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "Move_fb",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "2D Vector",
+                    "id": "1f88b38b-8cb3-4846-94d4-4767d1c33817",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move_lr",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
                     "name": "left",
-                    "id": "bbeb83b5-1f54-4952-972b-1422a3c078c7",
+                    "id": "3b2fffb4-3ca8-4f47-9582-582eb02eced9",
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "Move_lr",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "right",
-                    "id": "c2e99638-cd8a-4be5-b416-6bf422d3ba10",
+                    "id": "acb0dd47-6b46-4365-b83d-ba21b1df2925",
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "Move_lr",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "b6179d02-b55b-45a5-9f09-7b5ef112d4c4",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "View",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

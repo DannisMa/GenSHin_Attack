@@ -37,10 +37,28 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Move"",
+                    ""name"": ""Move_fb"",
                     ""type"": ""Value"",
                     ""id"": ""54c954b6-8cdf-4e3d-b665-e5f528bab69c"",
                     ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=2)"",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Move_lr"",
+                    ""type"": ""Value"",
+                    ""id"": ""1bf95feb-0f0e-4ba4-9744-692302bf6a42"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=2)"",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""View"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""979a6226-f7f4-4c36-8893-7dcfc987e896"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -65,7 +83,7 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""Move_fb"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -76,7 +94,7 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""Move_fb"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -87,31 +105,53 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""Move_fb"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""1f88b38b-8cb3-4846-94d4-4767d1c33817"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move_lr"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
                     ""name"": ""left"",
-                    ""id"": ""bbeb83b5-1f54-4952-972b-1422a3c078c7"",
+                    ""id"": ""3b2fffb4-3ca8-4f47-9582-582eb02eced9"",
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""Move_lr"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""right"",
-                    ""id"": ""c2e99638-cd8a-4be5-b416-6bf422d3ba10"",
+                    ""id"": ""acb0dd47-6b46-4365-b83d-ba21b1df2925"",
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""Move_lr"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b6179d02-b55b-45a5-9f09-7b5ef112d4c4"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""View"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -121,7 +161,9 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
         // PlayerNormal
         m_PlayerNormal = asset.FindActionMap("PlayerNormal", throwIfNotFound: true);
         m_PlayerNormal_Jump = m_PlayerNormal.FindAction("Jump", throwIfNotFound: true);
-        m_PlayerNormal_Move = m_PlayerNormal.FindAction("Move", throwIfNotFound: true);
+        m_PlayerNormal_Move_fb = m_PlayerNormal.FindAction("Move_fb", throwIfNotFound: true);
+        m_PlayerNormal_Move_lr = m_PlayerNormal.FindAction("Move_lr", throwIfNotFound: true);
+        m_PlayerNormal_View = m_PlayerNormal.FindAction("View", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -184,13 +226,17 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_PlayerNormal;
     private List<IPlayerNormalActions> m_PlayerNormalActionsCallbackInterfaces = new List<IPlayerNormalActions>();
     private readonly InputAction m_PlayerNormal_Jump;
-    private readonly InputAction m_PlayerNormal_Move;
+    private readonly InputAction m_PlayerNormal_Move_fb;
+    private readonly InputAction m_PlayerNormal_Move_lr;
+    private readonly InputAction m_PlayerNormal_View;
     public struct PlayerNormalActions
     {
         private @PlayerControl m_Wrapper;
         public PlayerNormalActions(@PlayerControl wrapper) { m_Wrapper = wrapper; }
         public InputAction @Jump => m_Wrapper.m_PlayerNormal_Jump;
-        public InputAction @Move => m_Wrapper.m_PlayerNormal_Move;
+        public InputAction @Move_fb => m_Wrapper.m_PlayerNormal_Move_fb;
+        public InputAction @Move_lr => m_Wrapper.m_PlayerNormal_Move_lr;
+        public InputAction @View => m_Wrapper.m_PlayerNormal_View;
         public InputActionMap Get() { return m_Wrapper.m_PlayerNormal; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -203,9 +249,15 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
-            @Move.started += instance.OnMove;
-            @Move.performed += instance.OnMove;
-            @Move.canceled += instance.OnMove;
+            @Move_fb.started += instance.OnMove_fb;
+            @Move_fb.performed += instance.OnMove_fb;
+            @Move_fb.canceled += instance.OnMove_fb;
+            @Move_lr.started += instance.OnMove_lr;
+            @Move_lr.performed += instance.OnMove_lr;
+            @Move_lr.canceled += instance.OnMove_lr;
+            @View.started += instance.OnView;
+            @View.performed += instance.OnView;
+            @View.canceled += instance.OnView;
         }
 
         private void UnregisterCallbacks(IPlayerNormalActions instance)
@@ -213,9 +265,15 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
-            @Move.started -= instance.OnMove;
-            @Move.performed -= instance.OnMove;
-            @Move.canceled -= instance.OnMove;
+            @Move_fb.started -= instance.OnMove_fb;
+            @Move_fb.performed -= instance.OnMove_fb;
+            @Move_fb.canceled -= instance.OnMove_fb;
+            @Move_lr.started -= instance.OnMove_lr;
+            @Move_lr.performed -= instance.OnMove_lr;
+            @Move_lr.canceled -= instance.OnMove_lr;
+            @View.started -= instance.OnView;
+            @View.performed -= instance.OnView;
+            @View.canceled -= instance.OnView;
         }
 
         public void RemoveCallbacks(IPlayerNormalActions instance)
@@ -236,6 +294,8 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
     public interface IPlayerNormalActions
     {
         void OnJump(InputAction.CallbackContext context);
-        void OnMove(InputAction.CallbackContext context);
+        void OnMove_fb(InputAction.CallbackContext context);
+        void OnMove_lr(InputAction.CallbackContext context);
+        void OnView(InputAction.CallbackContext context);
     }
 }

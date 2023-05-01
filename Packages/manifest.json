@@ -3,6 +3,7 @@
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.2d.tilemap": "1.0.0",
     "com.unity.analytics": "3.6.12",
+    "com.unity.animation.rigging": "1.1.1",
     "com.unity.burst": "1.6.6",
     "com.unity.collab-proxy": "2.0.4",
     "com.unity.feature.development": "1.0.1",
