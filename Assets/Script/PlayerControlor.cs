@@ -11,6 +11,7 @@ public class PlayerControlor : NetworkBehaviour
     private Rigidbody rd;
     private CapsuleCollider collision;
     private Transform cam_holder;
+    private Animator anim;
 
     private bool isGround = false;
     private Vector3 move_vector = new Vector3(0,0,0);
@@ -23,6 +24,7 @@ public class PlayerControlor : NetworkBehaviour
             return;
         rd = GetComponent<Rigidbody>();
         collision = GetComponent<CapsuleCollider>();
+        anim = GetComponent<Animator>();
 
         cam_holder = transform.Find("Cmaera holder");
         cam_holder.gameObject.AddComponent<Camera>();
@@ -69,7 +71,8 @@ public class PlayerControlor : NetworkBehaviour
         if (IsOwner && ctx.performed && isGround)
         {
             rd.AddForce(Vector3.up * GameConst.player_jump_height, ForceMode.Force);
-            
+            var t = anim.GetBool("Test");
+            anim.SetBool("Test",!t);
         }
     }
 
