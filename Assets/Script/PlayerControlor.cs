@@ -12,7 +12,6 @@ public class PlayerControlor : NetworkBehaviour
     private CapsuleCollider collision;
     private Transform cam_holder;
     private Animator anim;
-
     private bool isGround = false;
     private Vector3 move_vector = new Vector3(0,0,0);
     private float camera_rotation_vertical = 0.0f;
@@ -62,7 +61,18 @@ public class PlayerControlor : NetworkBehaviour
         if (!IsOwner)
             return;
 
-        rd.MovePosition(this.transform.localPosition + (rd.rotation * move_vector.normalized * GameConst.player_walk_speed * Time.deltaTime));
+        Vector3 mv = this.transform.localPosition + (rd.rotation * move_vector.normalized * GameConst.player_walk_speed * Time.deltaTime);
+        rd.MovePosition(mv);
+
+        if (mv == Vector3.zero)
+        {
+            Debug.Log(mv);// here have bug
+            anim.SetBool("Move", false);
+        }
+        else 
+        {
+            anim.SetBool("Move", true);
+        }
 
     }
 
@@ -71,8 +81,8 @@ public class PlayerControlor : NetworkBehaviour
         if (IsOwner && ctx.performed && isGround)
         {
             rd.AddForce(Vector3.up * GameConst.player_jump_height, ForceMode.Force);
-            var t = anim.GetBool("Test");
-            anim.SetBool("Test",!t);
+            anim.SetBool("Jump",true);
+            Debug.Log($"Jump : {anim.GetBool("Jump")}");
         }
     }
 
@@ -96,7 +106,11 @@ public class PlayerControlor : NetworkBehaviour
             return;
 
         if (collision.transform.CompareTag("Ground"))
+        { 
             isGround = true;
+            anim.SetBool("Jump", false);
+            Debug.Log($"Jump : {anim.GetBool("Jump")}");
+        }
     }
 
     private void OnCollisionExit(Collision collision)

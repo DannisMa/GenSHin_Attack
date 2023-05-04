@@ -2147,7 +2147,7 @@ GameObject:
   - component: {fileID: 5868309049078930155}
   - component: {fileID: -9188075135018236473}
   - component: {fileID: 3077089027542137185}
-  - component: {fileID: -7982366461989057673}
+  - component: {fileID: 7252423190825509528}
   m_Layer: 0
   m_Name: unitychan
   m_TagString: Untagged
@@ -2465,7 +2465,7 @@ MonoBehaviour:
   - {fileID: 400194}
   - {fileID: 400126}
   - {fileID: 400314}
---- !u!114 &-7982366461989057673
+--- !u!114 &7252423190825509528
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2474,7 +2474,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 100096}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Script: {fileID: 11500000, guid: ad8deae8091111f4eb30a56c1f4e0d3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   TransitionStateInfoList: []
