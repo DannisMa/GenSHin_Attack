@@ -2257,6 +2257,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7288bcddd38cdfc44874b2a717be39c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isGround: 0
+  current_animation: 
 --- !u!114 &5868309049078930155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2278,9 +2280,9 @@ MonoBehaviour:
   SyncScaleX: 0
   SyncScaleY: 0
   SyncScaleZ: 0
-  PositionThreshold: 0.001
-  RotAngleThreshold: 0.01
-  ScaleThreshold: 0.01
+  PositionThreshold: -0.0001
+  RotAngleThreshold: 0.00001
+  ScaleThreshold: -0.0001
   UseQuaternionSynchronization: 0
   UseQuaternionCompression: 0
   UseHalfFloatPrecision: 0

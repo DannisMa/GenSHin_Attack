@@ -12,9 +12,11 @@ public class PlayerControlor : NetworkBehaviour
     private CapsuleCollider collision;
     private Transform cam_holder;
     private Animator anim;
-    private bool isGround = false;
+
+    [SerializeField] private bool isGround = false;
     private Vector3 move_vector = new Vector3(0,0,0);
     private float camera_rotation_vertical = 0.0f;
+    [SerializeField] private string current_animation = "";
 
     // Start is called before the first frame update
     void Start()
@@ -64,16 +66,28 @@ public class PlayerControlor : NetworkBehaviour
         Vector3 mv = this.transform.localPosition + (rd.rotation * move_vector.normalized * GameConst.player_walk_speed * Time.deltaTime);
         rd.MovePosition(mv);
 
-        if (mv == Vector3.zero)
+        if(isGround)
         {
-            Debug.Log(mv);// here have bug
-            anim.SetBool("Move", false);
-        }
-        else 
-        {
-            anim.SetBool("Move", true);
+            if (move_vector == Vector3.zero)
+            {
+                changeAnimation(PlayerAnimationEnum.rifleAimingIdle.ToString());
+            }
+            else
+            {
+                changeAnimation(PlayerAnimationEnum.rifleWalk.ToString());
+            }
         }
 
+    }
+
+    private void changeAnimation(string na)//new animation
+    {
+        if (na.CompareTo(current_animation) == 0)
+            return;
+
+        anim.Play(na);
+
+        current_animation = na;
     }
 
     private void Jump(InputAction.CallbackContext ctx)
@@ -81,8 +95,8 @@ public class PlayerControlor : NetworkBehaviour
         if (IsOwner && ctx.performed && isGround)
         {
             rd.AddForce(Vector3.up * GameConst.player_jump_height, ForceMode.Force);
-            anim.SetBool("Jump",true);
-            Debug.Log($"Jump : {anim.GetBool("Jump")}");
+            isGround = false;
+            changeAnimation(PlayerAnimationEnum.rifleJump.ToString());
         }
     }
 
@@ -108,8 +122,6 @@ public class PlayerControlor : NetworkBehaviour
         if (collision.transform.CompareTag("Ground"))
         { 
             isGround = true;
-            anim.SetBool("Jump", false);
-            Debug.Log($"Jump : {anim.GetBool("Jump")}");
         }
     }
 
