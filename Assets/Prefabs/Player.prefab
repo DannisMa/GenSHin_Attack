@@ -68,7 +68,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   character_models:
   - {fileID: 100096, guid: 412b92d4feeb9c548bfa98f62c4d1022, type: 3}
+  - {fileID: 2390358131185368637, guid: 55cbb73b503f8c74f9cd8eb586ae4c1a, type: 3}
   model_point: {fileID: 0}
+  model_num: 1
+  my_model: {fileID: 0}
 --- !u!114 &-4462907695466545944
 MonoBehaviour:
   m_ObjectHideFlags: 0
