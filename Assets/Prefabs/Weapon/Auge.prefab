@@ -651,7 +651,7 @@ GameObject:
   - component: {fileID: 517279544143026025}
   m_Layer: 0
   m_Name: Auge
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
