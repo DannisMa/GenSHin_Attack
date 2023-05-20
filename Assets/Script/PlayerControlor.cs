@@ -11,12 +11,14 @@ public class PlayerControlor : MonoBehaviour
     private Rigidbody rd;
     private CapsuleCollider collision;
     private Transform cam_holder;
+    private Camera player_camera;
 
     private bool isGround = false;
     private Vector3 move_vector = new Vector3(0,0,0);
     private float camera_rotation_vertical = 0.0f;
 
-    [SerializeField] private GameObject mouse_pose;
+    private Transform aim_pose;
+    private Transform mouse_pose;
 
     // Start is called before the first frame update
     void Start()
@@ -25,7 +27,11 @@ public class PlayerControlor : MonoBehaviour
         collision = GetComponent<CapsuleCollider>();
 
         cam_holder = transform.Find("Camera Holder");
-        cam_holder.GetChild(0).gameObject.AddComponent<Camera>();
+        player_camera = cam_holder.GetChild(0).gameObject.AddComponent<Camera>();
+
+        mouse_pose = cam_holder.transform.Find("Mouse Pose");
+        aim_pose = transform.Find("Weapon Aim Pose");
+        aim_pose.position = mouse_pose.position;
 
         player_control = new PlayerControl();
         player_control.PlayerNormal.Enable();
@@ -33,8 +39,6 @@ public class PlayerControlor : MonoBehaviour
         player_control.PlayerNormal.Move_fb.performed += Move_fb;
         player_control.PlayerNormal.Move_lr.performed += Move_lr;
         player_control.PlayerNormal.View.performed += View;
-
-        
     }
 
     private void View(InputAction.CallbackContext obj)
@@ -48,6 +52,8 @@ public class PlayerControlor : MonoBehaviour
         camera_rotation_vertical -= temp_v.y;
         camera_rotation_vertical = Mathf.Clamp(camera_rotation_vertical, -70f, 70f);
         cam_holder.localRotation = Quaternion.Euler(camera_rotation_vertical, 0, 0);
+
+        aim_pose.position = mouse_pose.position;
     }
 
 
@@ -88,11 +94,13 @@ public class PlayerControlor : MonoBehaviour
             isGround = false;
             changeAnimation(PlayerAnimationEnum.rifleJump.ToString());
         }
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Move_fb(InputAction.CallbackContext ctx)
     {
         move_vector.z = ctx.ReadValue<Vector2>().y;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     private void Move_lr(InputAction.CallbackContext ctx)
