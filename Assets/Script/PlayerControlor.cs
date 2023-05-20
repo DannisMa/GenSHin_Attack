@@ -56,6 +56,7 @@ public class PlayerControlor : MonoBehaviour
     {
         
         Vector3 mv = (rd.rotation * move_vector.normalized * GameConst.player_walk_speed * Time.deltaTime);
+
         if (mv != Vector3.zero)
         {
             rd.MovePosition(mv + transform.localPosition);
@@ -101,7 +102,6 @@ public class PlayerControlor : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Enter"+collision.transform.tag);
         if (collision.transform.CompareTag("Ground"))
         { 
             isGround = true;
@@ -110,7 +110,6 @@ public class PlayerControlor : MonoBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
-        Debug.Log("Exiter" + collision.transform.tag);
         if (collision.transform.CompareTag("Ground"))
             isGround = false;
     }

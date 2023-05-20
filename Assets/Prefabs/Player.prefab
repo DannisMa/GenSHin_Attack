@@ -46,5 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   character_models:
   - {fileID: 1641391722721778773, guid: f057a8ac07b4f2f478f37d22d736783b, type: 3}
+  - {fileID: 1641391722721778773, guid: f057a8ac07b4f2f478f37d22d736783b, type: 3}
   weapon_models:
-  - {fileID: 6916655020984944640, guid: 6cc8967251e8ea1499671242202097cc, type: 3}
+  - {fileID: 7652181276236542326, guid: 6cc8967251e8ea1499671242202097cc, type: 3}
+  weapon_holder: {fileID: 0}
