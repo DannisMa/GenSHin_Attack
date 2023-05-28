@@ -94,13 +94,11 @@ public class PlayerControlor : MonoBehaviour
             isGround = false;
             changeAnimation(PlayerAnimationEnum.rifleJump.ToString());
         }
-        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Move_fb(InputAction.CallbackContext ctx)
     {
         move_vector.z = ctx.ReadValue<Vector2>().y;
-        Cursor.lockState = CursorLockMode.None;
     }
 
     private void Move_lr(InputAction.CallbackContext ctx)
