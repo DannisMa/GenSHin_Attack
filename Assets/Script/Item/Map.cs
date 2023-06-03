@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Map : Item
 {
@@ -14,5 +15,10 @@ public class Map : Item
     void Update()
     {
     
+    }
+
+    public override void Effect(InputAction.CallbackContext ctx)
+    {
+        Debug.Log("打開地圖");
     }
 }

@@ -134,6 +134,62 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Pause"",
+            ""id"": ""9f7873f3-0d22-43d8-b359-b96c02dbc9a4"",
+            ""actions"": [
+                {
+                    ""name"": ""Esc"",
+                    ""type"": ""Button"",
+                    ""id"": ""46df38c2-1fc5-4986-a397-6154db933390"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""566493db-a039-4f35-afc2-cf0fdb3f43b0"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Esc"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""InteractionUI"",
+            ""id"": ""60dee593-f1fb-4d69-a305-4b9a89619e81"",
+            ""actions"": [
+                {
+                    ""name"": ""InteractionItem"",
+                    ""type"": ""Button"",
+                    ""id"": ""c46dbd8e-cbd4-4920-8c6b-775ea3d5e8d3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""8198a2db-5e5a-452c-994b-95703e4f65e0"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""InteractionItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -143,6 +199,12 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
         m_PlayerNormal_Jump = m_PlayerNormal.FindAction("Jump", throwIfNotFound: true);
         m_PlayerNormal_View = m_PlayerNormal.FindAction("View", throwIfNotFound: true);
         m_PlayerNormal_Move = m_PlayerNormal.FindAction("Move", throwIfNotFound: true);
+        // Pause
+        m_Pause = asset.FindActionMap("Pause", throwIfNotFound: true);
+        m_Pause_Esc = m_Pause.FindAction("Esc", throwIfNotFound: true);
+        // InteractionUI
+        m_InteractionUI = asset.FindActionMap("InteractionUI", throwIfNotFound: true);
+        m_InteractionUI_InteractionItem = m_InteractionUI.FindAction("InteractionItem", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -262,10 +324,110 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
         }
     }
     public PlayerNormalActions @PlayerNormal => new PlayerNormalActions(this);
+
+    // Pause
+    private readonly InputActionMap m_Pause;
+    private List<IPauseActions> m_PauseActionsCallbackInterfaces = new List<IPauseActions>();
+    private readonly InputAction m_Pause_Esc;
+    public struct PauseActions
+    {
+        private @PlayerControl m_Wrapper;
+        public PauseActions(@PlayerControl wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Esc => m_Wrapper.m_Pause_Esc;
+        public InputActionMap Get() { return m_Wrapper.m_Pause; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(PauseActions set) { return set.Get(); }
+        public void AddCallbacks(IPauseActions instance)
+        {
+            if (instance == null || m_Wrapper.m_PauseActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_PauseActionsCallbackInterfaces.Add(instance);
+            @Esc.started += instance.OnEsc;
+            @Esc.performed += instance.OnEsc;
+            @Esc.canceled += instance.OnEsc;
+        }
+
+        private void UnregisterCallbacks(IPauseActions instance)
+        {
+            @Esc.started -= instance.OnEsc;
+            @Esc.performed -= instance.OnEsc;
+            @Esc.canceled -= instance.OnEsc;
+        }
+
+        public void RemoveCallbacks(IPauseActions instance)
+        {
+            if (m_Wrapper.m_PauseActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IPauseActions instance)
+        {
+            foreach (var item in m_Wrapper.m_PauseActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_PauseActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public PauseActions @Pause => new PauseActions(this);
+
+    // InteractionUI
+    private readonly InputActionMap m_InteractionUI;
+    private List<IInteractionUIActions> m_InteractionUIActionsCallbackInterfaces = new List<IInteractionUIActions>();
+    private readonly InputAction m_InteractionUI_InteractionItem;
+    public struct InteractionUIActions
+    {
+        private @PlayerControl m_Wrapper;
+        public InteractionUIActions(@PlayerControl wrapper) { m_Wrapper = wrapper; }
+        public InputAction @InteractionItem => m_Wrapper.m_InteractionUI_InteractionItem;
+        public InputActionMap Get() { return m_Wrapper.m_InteractionUI; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(InteractionUIActions set) { return set.Get(); }
+        public void AddCallbacks(IInteractionUIActions instance)
+        {
+            if (instance == null || m_Wrapper.m_InteractionUIActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_InteractionUIActionsCallbackInterfaces.Add(instance);
+            @InteractionItem.started += instance.OnInteractionItem;
+            @InteractionItem.performed += instance.OnInteractionItem;
+            @InteractionItem.canceled += instance.OnInteractionItem;
+        }
+
+        private void UnregisterCallbacks(IInteractionUIActions instance)
+        {
+            @InteractionItem.started -= instance.OnInteractionItem;
+            @InteractionItem.performed -= instance.OnInteractionItem;
+            @InteractionItem.canceled -= instance.OnInteractionItem;
+        }
+
+        public void RemoveCallbacks(IInteractionUIActions instance)
+        {
+            if (m_Wrapper.m_InteractionUIActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IInteractionUIActions instance)
+        {
+            foreach (var item in m_Wrapper.m_InteractionUIActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_InteractionUIActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public InteractionUIActions @InteractionUI => new InteractionUIActions(this);
     public interface IPlayerNormalActions
     {
         void OnJump(InputAction.CallbackContext context);
         void OnView(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
+    }
+    public interface IPauseActions
+    {
+        void OnEsc(InputAction.CallbackContext context);
+    }
+    public interface IInteractionUIActions
+    {
+        void OnInteractionItem(InputAction.CallbackContext context);
     }
 }

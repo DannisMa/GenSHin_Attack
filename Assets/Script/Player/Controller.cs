@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,7 @@ public class Controller : MonoBehaviour
 
     private Vector3 mMove = new Vector3(0, 0, 0);
     private float turnCam = 0.0f;
+    private float gravityValue = -9.81f;
 
 
     private void Awake()
@@ -28,6 +30,9 @@ public class Controller : MonoBehaviour
         playerControl.PlayerNormal.Move.canceled += Move;
         playerControl.PlayerNormal.View.performed += View;
         playerControl.PlayerNormal.View.canceled += View;
+
+        playerControl.Pause.Enable();
+        playerControl.Pause.Esc.performed += Esc;
     }
 
     // Update is called once per frame
@@ -37,7 +42,12 @@ public class Controller : MonoBehaviour
             return;
         Vector3 moveDirectionForward = mController.transform.forward * mMove.z ;
         Vector3 moveDirectionSide = mController.transform.right * mMove.x;
-        mController.Move((moveDirectionForward + moveDirectionSide) * Time.deltaTime * 10);
+        Vector3 _move = moveDirectionForward +moveDirectionSide;
+        if (!mController.isGrounded)
+        {
+            _move.y += gravityValue * Time.deltaTime * 10;
+        }
+        mController.Move(_move * Time.deltaTime * 10);
     }
 
     public void ChangeCharacter(CharacterController _c)
@@ -63,5 +73,21 @@ public class Controller : MonoBehaviour
         turnCam -= ctx.ReadValue<Vector2>().y * 0.1f;
         turnCam = Mathf.Clamp(turnCam, -70f, 70f);
         cameraHolder.localRotation = Quaternion.Euler(turnCam, 0, 0);
+    }
+
+    private void Esc(InputAction.CallbackContext obj)
+    {
+        if (Cursor.visible)
+        {
+            Debug.Log("Âê©w·Æ¹«");
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        else
+        {
+            Debug.Log("¸Ñ©ñ·Æ¹«");
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
     }
 }

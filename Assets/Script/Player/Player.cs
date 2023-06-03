@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     private int model_num = 0;
     private GameObject my_model;
     private Controller mController;
+    private PlayerUI mPlayerUI;
 
     /// <summary>
     /// About weapon
@@ -30,6 +31,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         mController = GetComponent<Controller>();
+        mPlayerUI = GetComponent<PlayerUI>();
     }
 
     // Start is called before the first frame update
@@ -49,6 +51,8 @@ public class Player : MonoBehaviour
     {
         my_model = Instantiate(character_models[num], transform);
         mController.ChangeCharacter(my_model.GetComponent<CharacterController>());
+        Camera c = my_model.transform.GetChild(1).GetChild(0).GetComponent<Camera>();
+        mPlayerUI.SetCamera(c);
     }
 
     void InitWeapon()

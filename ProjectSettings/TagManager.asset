@@ -18,6 +18,7 @@ TagManager:
   - Wood
   - Ground
   - Weapon
+  - Item
   layers:
   - Default
   - TransparentFX
