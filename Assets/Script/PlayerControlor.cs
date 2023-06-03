@@ -36,8 +36,8 @@ public class PlayerControlor : MonoBehaviour
         player_control = new PlayerControl();
         player_control.PlayerNormal.Enable();
         player_control.PlayerNormal.Jump.performed += Jump;
-        player_control.PlayerNormal.Move_fb.performed += Move_fb;
-        player_control.PlayerNormal.Move_lr.performed += Move_lr;
+        player_control.PlayerNormal.Move.performed += Move_fb;
+        player_control.PlayerNormal.Move.performed += Move_lr;
         player_control.PlayerNormal.View.performed += View;
     }
 
@@ -123,8 +123,8 @@ public class PlayerControlor : MonoBehaviour
     void OnDestroy()
     {
         player_control.PlayerNormal.Jump.performed -= Jump;
-        player_control.PlayerNormal.Move_fb.performed -= Move_fb;
-        player_control.PlayerNormal.Move_lr.performed -= Move_lr;
+        player_control.PlayerNormal.Move.performed -= Move_fb;
+        player_control.PlayerNormal.Move.performed -= Move_lr;
         player_control.PlayerNormal.View.performed -= View;
         player_control.PlayerNormal.Disable();
     }

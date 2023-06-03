@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1632466114738948914}
   - component: {fileID: -8564151636640689607}
+  - component: {fileID: 8557506032449633649}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -45,8 +46,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character_models:
-  - {fileID: 1641391722721778773, guid: f057a8ac07b4f2f478f37d22d736783b, type: 3}
-  - {fileID: 1641391722721778773, guid: f057a8ac07b4f2f478f37d22d736783b, type: 3}
-  weapon_models:
-  - {fileID: 7652181276236542326, guid: 6cc8967251e8ea1499671242202097cc, type: 3}
+  - {fileID: 6545687716339028261, guid: 9f1bc9e694c083846a14dff2aabd9a83, type: 3}
+  weapon_models: []
   weapon_holder: {fileID: 0}
+--- !u!114 &8557506032449633649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8680258221242078733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d96c385f0d243d429067c9e727ee4db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
