@@ -5,10 +5,11 @@ using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour
 {
+    private PlayerInputSystem instance;
+    private PlayerControl mInputSystem;
     private new Camera camera = null;
     private Transform mCanvas;
     private Transform interactUI;
-    private PlayerControl playerControl;
     private Transform lookAtItem = null;
 
     private void Awake()
@@ -21,7 +22,9 @@ public class PlayerUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerControl = new PlayerControl();
+        instance = PlayerInputSystem.Instance;
+        mInputSystem = instance.InputSystem;
+        mInputSystem = instance.InputSystem;
     }
 
     // Update is called once per frame
@@ -34,23 +37,21 @@ public class PlayerUI : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 10.0f) && hit.transform.CompareTag("Item"))
         {
-            playerControl.InteractionUI.Enable();
             interactUI.gameObject.SetActive(true);
             if (lookAtItem == null) 
             { 
                 lookAtItem = hit.transform;
-                playerControl.InteractionUI.InteractionItem.performed += lookAtItem.GetComponent<Item>().Effect;
+                mInputSystem.InteractionUI.InteractionItem.performed += lookAtItem.GetComponent<Item>().Effect;
             }
             interactUI.GetComponent<Text>().text = $"F : {hit.transform.name}";
 
         }
         else
         {
-            playerControl.InteractionUI.Disable();
             interactUI.gameObject.SetActive(false);
             if(lookAtItem != null)
             {
-                playerControl.InteractionUI.InteractionItem.performed -= lookAtItem.GetComponent<Item>().Effect;
+                mInputSystem.InteractionUI.InteractionItem.performed -= lookAtItem.GetComponent<Item>().Effect;
                 lookAtItem = null;
             }
         }

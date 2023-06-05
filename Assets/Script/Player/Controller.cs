@@ -6,7 +6,8 @@ using UnityEngine.InputSystem;
 
 public class Controller : MonoBehaviour
 {
-    private PlayerControl playerControl;
+    private PlayerInputSystem instance;
+    private PlayerControl mInputSystem;
     private CharacterController mController;
     private Transform cameraHolder;
 
@@ -23,16 +24,14 @@ public class Controller : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
-        playerControl = new PlayerControl();
-        playerControl.PlayerNormal.Enable();
-        playerControl.PlayerNormal.Move.performed += Move;
-        playerControl.PlayerNormal.Move.canceled += Move;
-        playerControl.PlayerNormal.View.performed += View;
-        playerControl.PlayerNormal.View.canceled += View;
-
-        playerControl.Pause.Enable();
-        playerControl.Pause.Esc.performed += Esc;
+        instance = PlayerInputSystem.Instance;
+        mInputSystem = instance.InputSystem;
+        instance.PlayingMode();
+        mInputSystem.PlayerNormal.Move.performed += Move;
+        mInputSystem.PlayerNormal.Move.canceled += Move;
+        mInputSystem.PlayerNormal.View.performed += View;
+        mInputSystem.PlayerNormal.View.canceled += View;
+        mInputSystem.Pause.Esc.performed += Esc;
     }
 
     // Update is called once per frame
@@ -80,12 +79,14 @@ public class Controller : MonoBehaviour
         if (Cursor.visible)
         {
             Debug.Log("Âê©w·Æ¹«");
+            instance.PlayingMode();
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         }
         else
         {
             Debug.Log("¸Ñ©ñ·Æ¹«");
+            instance.ResumeMode();
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
