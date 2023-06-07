@@ -383,11 +383,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 8821749521050621507, guid: 44a329bca2e5e6d41a851030ffcd4840,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44a329bca2e5e6d41a851030ffcd4840, type: 3}
 --- !u!1 &1055711158
@@ -1023,11 +1018,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Map
-      objectReference: {fileID: 0}
-    - target: {fileID: 937857857020196673, guid: 7c41cb24a98462d498a077338ee4dcef,
-        type: 3}
-      propertyPath: m_TagString
-      value: Item
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c41cb24a98462d498a077338ee4dcef, type: 3}

@@ -1,14 +1,16 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Map : Item
 {
+    [SerializeField] private Transform canvasObject;
     // Start is called before the first frame update
     void Start()
     {
         name = "Map";
+        canvasObject = this.transform.GetChild(0);
     }
 
     // Update is called once per frame
@@ -19,6 +21,8 @@ public class Map : Item
 
     public override void Effect(InputAction.CallbackContext ctx)
     {
-        Debug.Log("¥´¶}¦a¹Ï");
+        Debug.Log("æ‰“é–‹åœ°åœ–");
+        PlayerInputSystem.Instance.BigUIMode();
+        canvasObject.gameObject.SetActive(true);
     }
 }

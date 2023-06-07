@@ -80,15 +80,11 @@ public class Controller : MonoBehaviour
         {
             Debug.Log("Âê©w·Æ¹«");
             instance.PlayingMode();
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
         }
         else
         {
             Debug.Log("¸Ñ©ñ·Æ¹«");
             instance.ResumeMode();
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
         }
     }
 }
