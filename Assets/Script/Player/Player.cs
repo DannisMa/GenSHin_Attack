@@ -38,6 +38,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         ChangeCharacter(model_num);
+        DontDestroyOnLoad(this.gameObject);
         //InitWeapon();
     }
 
