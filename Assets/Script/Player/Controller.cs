@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 public class Controller : MonoBehaviour
 {
-    private PlayerInputSystem instance;
+    private PlayerInputSystem inputInstance;
     private PlayerControl mInputSystem;
     private CharacterController mController;
     private Transform cameraHolder;
@@ -24,14 +24,13 @@ public class Controller : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        instance = PlayerInputSystem.Instance;
-        mInputSystem = instance.InputSystem;
-        instance.PlayingMode();
+        inputInstance = PlayerInputSystem.Instance;
+        mInputSystem = inputInstance.InputSystem;
+        inputInstance.PlayingMode();
         mInputSystem.PlayerNormal.Move.performed += Move;
         mInputSystem.PlayerNormal.Move.canceled += Move;
         mInputSystem.PlayerNormal.View.performed += View;
         mInputSystem.PlayerNormal.View.canceled += View;
-        mInputSystem.Pause.Esc.performed += Esc;
     }
 
     // Update is called once per frame
@@ -72,19 +71,5 @@ public class Controller : MonoBehaviour
         turnCam -= ctx.ReadValue<Vector2>().y * 0.1f;
         turnCam = Mathf.Clamp(turnCam, -70f, 70f);
         cameraHolder.localRotation = Quaternion.Euler(turnCam, 0, 0);
-    }
-
-    private void Esc(InputAction.CallbackContext obj)
-    {
-        if (Cursor.visible)
-        {
-            Debug.Log("Âê©w·Æ¹«");
-            instance.PlayingMode();
-        }
-        else
-        {
-            Debug.Log("¸Ñ©ñ·Æ¹«");
-            instance.ResumeMode();
-        }
     }
 }

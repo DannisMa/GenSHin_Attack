@@ -11,6 +11,8 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class Player : MonoBehaviour
 {
+    public static Player Instance { get; private set; }
+
     /// <summary>
     /// Anout character models
     /// </summary>
@@ -18,7 +20,6 @@ public class Player : MonoBehaviour
     private int model_num = 0;
     private GameObject my_model;
     private Controller mController;
-    private PlayerUI mPlayerUI;
 
     /// <summary>
     /// About weapon
@@ -30,8 +31,16 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+
         mController = GetComponent<Controller>();
-        mPlayerUI = GetComponent<PlayerUI>();
     }
 
     // Start is called before the first frame update
@@ -53,7 +62,7 @@ public class Player : MonoBehaviour
         my_model = Instantiate(character_models[num], transform);
         mController.ChangeCharacter(my_model.GetComponent<CharacterController>());
         Camera c = my_model.transform.GetChild(1).GetChild(0).GetComponent<Camera>();
-        mPlayerUI.SetCamera(c);
+        GameManager.Instance.SetPlayerCamera(c);
     }
 
     void InitWeapon()
@@ -70,6 +79,11 @@ public class Player : MonoBehaviour
 
         right_hand_pose.position = my_weapon_model.GetChild(1).position;
         right_hand_pose.rotation = my_weapon_model.GetChild(1).rotation;
+    }
+
+    public Vector3 PlayerPosition()
+    {
+        return my_model.transform.position;
     }
 
 }

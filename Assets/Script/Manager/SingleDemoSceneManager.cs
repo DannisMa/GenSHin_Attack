@@ -15,14 +15,9 @@ public class SingleDemoSceneManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        InitPlayer();
+        player.transform.position = Vector3.zero;
+        player.transform.GetChild(0).position = respawnPoint.position;
         PlayerInputSystem.Instance.PlayingMode();
-    }
-
-    private void InitPlayer()
-    {
-        player.transform.position = new Vector3(0,0,0);
-        player.transform.GetChild(1).transform.position = respawnPoint.transform.position;
     }
 
     // Update is called once per frame
